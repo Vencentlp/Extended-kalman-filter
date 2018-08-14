@@ -56,10 +56,10 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	//Pre-computer a set of terms to avoid repeat calculation
 	float c1 = px * px + py * py;
 	float c2 = sqrt(c1);
-	float phi = atan(py / px);
+	float c3 = atan(py / px);
 	
 	VectorXd hc_(3);
-	hc_ << c2, phi, (px*vy + py * vx) / c2;
+	hc_ << c2, c3, (px*vy + py * vx) / c2;
 	float r = z(0);
 	float phi = z(1);
 	float r_r = z(2);
