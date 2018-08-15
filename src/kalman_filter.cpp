@@ -56,7 +56,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	//Pre-computer a set of terms to avoid repeat calculation
 	float c1 = px * px + py * py;
 	float c2 = sqrt(c1);
-	float c3 = atan(py / px);
+	float c3 = atan2(py, px);
 	
 	VectorXd hc_(3);
 	hc_ << c2, c3, (px*vy + py * vx) / c2;
@@ -70,11 +70,11 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	{
 		if (y(1) < -M_PI)
 		{
-			y(1) = y(1) + 2 * M_PI;
+			y(1) = y(1) + M_PI;
 		}
 		else
 		{
-			y(1) = y(1) - 2 * M_PI;
+			y(1) = y(1) - M_PI;
 		}
 	}
 	MatrixXd Ht = H_.transpose();
