@@ -66,11 +66,11 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	VectorXd z_(3);
 	z_ << r, phi, r_r;
 	VectorXd y = z_ - hc_;
-	while ((y(1)<-M_PI) | (y(1)>M_PI))
+	while ((y(1)<-M_PI) || (y(1)>M_PI))
 	{
 		if (y(1) < -M_PI)
 		{
-			y(1) = phi + 2 * M_PI;
+			y(1) = y(1) + 2 * M_PI;
 		}
 		else
 		{
