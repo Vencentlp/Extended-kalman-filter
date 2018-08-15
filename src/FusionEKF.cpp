@@ -38,6 +38,11 @@ FusionEKF::FusionEKF() {
   */
   H_laser_ << 1, 0, 0, 0,
 	  0, 1, 0, 0;
+  ekf_.P_ = MatrixXd(4, 4);
+  ekf_.P_ << 1, 0, 0, 0,
+	  0, 1, 0, 0,
+	  0, 0, 1000, 0,
+	  0, 0, 0, 1000;
 }
 
 /**
@@ -95,7 +100,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
    ****************************************************************************/
 
   /**
-   TODO:
+
      * Update the state transition matrix F according to the new elapsed time.
       - Time is measured in seconds.
      * Update the process noise covariance matrix.
