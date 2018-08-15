@@ -107,12 +107,13 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
      * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
    */
   
-  ekf_.F_ = MatrixXd(4, 4);
+  
   float dt = measurement_pack.timestamp_ - previous_timestamp_;
   previous_timestamp_ = measurement_pack.timestamp_;
   float dt_2 = dt * dt;
   float dt_3 = dt_2 * dt;
   float dt_4 = dt_3 * dt;
+  ekf_.F_ = MatrixXd(4, 4);
   ekf_.F_ << 1, 0, dt, 0,
 	  0, 1, 0, dt,
 	  0, 0, 1, 0,

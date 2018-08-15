@@ -60,12 +60,12 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	
 	VectorXd hc_(3);
 	hc_ << c2, c3, (px*vy + py * vx) / c2;
-	float r = z(0);
-	float phi = z(1);
-	float r_r = z(2);
-	VectorXd z_(3);
-	z_ << r, phi, r_r;
-	VectorXd y = z_ - hc_;
+	//float r = z(0);
+	//float phi = z(1);
+	//float r_r = z(2);
+	//VectorXd z_(3);
+	//z << r, phi, r_r;
+	VectorXd y = z - hc_;
 	while ((y(1)<-M_PI) || (y(1)>M_PI))
 	{
 		if (y(1) < -M_PI)
