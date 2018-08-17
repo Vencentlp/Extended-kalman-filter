@@ -57,13 +57,14 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	double vy = x_(3);
 	//Pre-computer a set of terms to avoid repeat calculatio	
 	
-	double c1 = px * px + py * py;
+	
 	if (abs(px) < 0.0001){
 		px = 0.0001;
 	};
 	if (abs(py) < 0.0001) {
 		py = 0.0001;
 	}
+	double c1 = px * px + py * py;
 	double c2 = sqrt(c1);
 	double c3 = atan2(py, px);
 	
