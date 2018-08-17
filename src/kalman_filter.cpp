@@ -51,29 +51,27 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
     * update the state by using Extended Kalman Filter equations
   */
 	
-	float px = x_(0);
-	float py = x_(1);
-	float vx = x_(2);
-	float vy = x_(3);
+	double px = x_(0);
+	double py = x_(1);
+	double vx = x_(2);
+	double vy = x_(3);
 	//Pre-computer a set of terms to avoid repeat calculatio	
 	
-	float c1 = px * px + py * py;
-	if (c1 < 0.0001)
-	{	
-	px = 0.0001;
-	py = 0.0001;
-	};	
-	if (px < 0.0001){
-	px = 0.0001;
-	};	
-	float c2 = sqrt(c1);
-	float c3 = atan2(py, px);
+	double c1 = px * px + py * py;
+	if (abs(px) < 0.0001){
+		px = 0.0001;
+	};
+	if (abs(py) < 0.0001) {
+		py = 0.0001;
+	}
+	double c2 = sqrt(c1);
+	double c3 = atan2(py, px);
 	
 	VectorXd hc_(3);
 	hc_ << c2, c3, (px*vy + py * vx) / c2;
-	//float r = z(0);
-	//float phi = z(1);
-	//float r_r = z(2);
+	//double r = z(0);
+	//double phi = z(1);
+	//double r_r = z(2);
 	//VectorXd z_(3);
 	//z << r, phi, r_r;
 	VectorXd y = z - hc_;
@@ -81,11 +79,11 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	{
      		if (y(1) < -M_PI)
 		{
-			y(1) = y(1) + M_PI;
+			y(1) = y(1) + 2*M_PI;
 		}
 		else
 		{
-			y(1) = y(1) - M_PI;
+			y(1) = y(1) - 2*M_PI;
 		}
 	}
 	MatrixXd Ht = H_.transpose();
