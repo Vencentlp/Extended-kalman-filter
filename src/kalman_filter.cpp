@@ -64,7 +64,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
 	// avoid division by zero
 	if (fabs(px) < 0.0001) {
-		cout << "Error while converting vector x_ to polar coordinates: Division by Zero" << endl;
+		cout << "Error px zero while calculate phi" << endl;
 	}
 	else {
 		phi = atan2(py, px);
@@ -72,7 +72,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
 	// avoid division by zero
 	if (rho < 0.0001) {
-		cout << "Error while converting vector x_ to polar coordinates: Division by Zero" << endl;
+		cout << "Error divided by zero" << endl;
 	}
 	else {
 		rho_dot = (px*vx + py * vy) / rho;
