@@ -57,7 +57,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	double vy = x_(3);
 	//Pre-computer a set of terms to avoid repeat calculatio	
 	double phi;
-	double rho;
+	//double rho;
 	double rho_dot;
 	
 	double rho = sqrt(px*px + py * py);
