@@ -56,26 +56,40 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	double vx = x_(2);
 	double vy = x_(3);
 	//Pre-computer a set of terms to avoid repeat calculatio	
+	double phi;
+	double rho;
+	double rho_dot;
 	
-	
-	if (abs(px) < 0.0001){
-		px = 0.0001;
-	};
-	if (abs(py) < 0.0001) {
-		py = 0.0001;
+	double rho = sqrt(px*px + py * py);
+
+	// avoid division by zero
+	if (fabs(px) < 0.0001) {
+		cout << "Error while converting vector x_ to polar coordinates: Division by Zero" << endl;
 	}
-	double c1 = px * px + py * py;
-	double c2 = sqrt(c1);
-	double c3 = atan2(py, px);
+	else {
+		phi = atan2(py, px);
+	}
+
+	// avoid division by zero
+	if (rho < 0.0001) {
+		cout << "Error while converting vector x_ to polar coordinates: Division by Zero" << endl;
+	}
+	else {
+		rho_dot = (px*vx + py * vy) / rho;
+	}
+
+	VectorXd h = VectorXd(3);
+	h << rho, phi, rho_dot; // For radar H * x becomes h(x)
+
+	VectorXd y = z - h; // Using h instead of Jacobian Hj_ here!
+
 	
-	VectorXd hc_(3);
-	hc_ << c2, c3, (px*vy + py * vx) / c2;
 	//double r = z(0);
 	//double phi = z(1);
 	//double r_r = z(2);
 	//VectorXd z_(3);
 	//z << r, phi, r_r;
-	VectorXd y = z - hc_;
+	//VectorXd y = z - hc_;
 	while ((y(1)<-M_PI) || (y(1)>M_PI))
 	{
      		if (y(1) < -M_PI)
